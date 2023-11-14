@@ -1,0 +1,104 @@
+{
+    "AAPL": {
+        "last_updated": "2024-12-21",
+        "basic_info": {
+            "symbol": "AAPL",
+            "shortName": "Apple Inc.",
+            "longName": "Apple Inc.",
+            "sector": "Technology",
+            "industry": "Consumer Electronics",
+            "country": "United States",
+            "currency": "USD"
+        },
+        "price_data": {
+            "regularMarketPrice": 197.57,
+            "regularMarketOpen": 196.90,
+            "regularMarketDayHigh": 198.32,
+            "regularMarketDayLow": 196.16,
+            "regularMarketVolume": 63898994,
+            "regularMarketPreviousClose": 195.89,
+            "bid": 197.55,
+            "ask": 197.60,
+            "bidSize": 800,
+            "askSize": 1100
+        },
+        "financial_metrics": {
+            "marketCap": 3070099005440,
+            "enterpriseValue": 3012831002624,
+            "trailingPE": 32.31,
+            "forwardPE": 28.93,
+            "priceToBook": 44.86,
+            "trailingEps": 6.11,
+            "forwardEps": 6.83,
+            "bookValue": 4.40
+        },
+        "dividend_info": {
+            "dividendRate": 0.96,
+            "dividendYield": 0.0049,
+            "exDividendDate": "2024-02-09",
+            "payoutRatio": 0.1571
+        },
+        "historical_performance": {
+            "52WeekChange": 0.4849,
+            "52WeekHigh": 199.62,
+            "52WeekLow": 124.17,
+            "50DayAverage": 186.71,
+            "200DayAverage": 182.84
+        },
+        "volatility_metrics": {
+            "beta": 1.31,
+            "impliedVolatility": 0.2194
+        }
+    },
+    "MSFT": {
+        "last_updated": "2024-12-21",
+        "basic_info": {
+            "symbol": "MSFT",
+            "shortName": "Microsoft Corporation",
+            "longName": "Microsoft Corporation",
+            "sector": "Technology",
+            "industry": "Software—Infrastructure",
+            "country": "United States",
+            "currency": "USD"
+        },
+        "price_data": {
+            "regularMarketPrice": 374.58,
+            "regularMarketOpen": 373.90,
+            "regularMarketDayHigh": 375.11,
+            "regularMarketDayLow": 373.15,
+            "regularMarketVolume": 22012456,
+            "regularMarketPreviousClose": 372.65,
+            "bid": 374.55,
+            "ask": 374.60,
+            "bidSize": 900,
+            "askSize": 1000
+        },
+        "financial_metrics": {
+            "marketCap": 2783999975424,
+            "enterpriseValue": 2705831002624,
+            "trailingPE": 36.21,
+            "forwardPE": 31.93,
+            "priceToBook": 11.86,
+            "trailingEps": 10.34,
+            "forwardEps": 11.73,
+            "bookValue": 31.59
+        },
+        "dividend_info": {
+            "dividendRate": 3.00,
+            "dividendYield": 0.0080,
+            "exDividendDate": "2024-02-14",
+            "payoutRatio": 0.2901
+        },
+        "historical_performance": {
+            "52WeekChange": 0.5649,
+            "52WeekHigh": 384.30,
+            "52WeekLow": 219.35,
+            "50DayAverage": 371.23,
+            "200DayAverage": 341.97
+        },
+        "volatility_metrics": {
+            "beta": 0.89,
+            "impliedVolatility": 0.1985
+        }
+    }
+}
