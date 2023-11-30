@@ -28,8 +28,8 @@ class FloatValidator:
             if float_value < 0:
                 raise ValueError("Value cannot be negative")
             self.value = float_value
-        except ValueError:
-            raise ValueError(f"{self.value} must be float")
+        except TypeError:
+            raise TypeError(f"{self.value} must be float")
 
 
 class IntValidator:

@@ -16,7 +16,7 @@ class Transaction:
         self.description = description
 
     def __repr__(self):
-        return f"id: {self.id}, date: {self.transaction_date}, amount: {self.amount}, wallet_id: {self.wallet_id}, desc: {self.description}"
+        return f"Transaction: (id: {self.id}, date: {self.transaction_date}, amount: {self.amount}, wallet_id: {self.wallet_id}, desc: {self.description})"
 
 
 class Wallet:
