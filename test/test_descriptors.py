@@ -65,6 +65,10 @@ class TestStringValidator:
                         description=12)
             print(exc_info)
 
+    def test_empty_descriptor(self):
+        trans = Transaction(1, "12-11-2018 09:15", 100, 1)
+        assert trans.description == ''
+
 
 class TestDatetimeValidator:
 
@@ -81,3 +85,31 @@ class TestDatetimeValidator:
             Transaction(id=4, amount=100, transaction_date="12-11-2018 09:15", wallet_id=1,
                         description="a" * 201)
             print(exc_info)
+
+
+class TestCategoryValidator:
+    def test_is_category_string_for_income(self):
+        with pytest.raises(TypeError) as exc_info:
+            Income(1, datetime.now(), 100, 1, "", 16)
+            print(exc_info)
+
+    def test_is_category_string_for_expense(self):
+        with pytest.raises(TypeError) as exc_info:
+            Expense(1, datetime.now(), 100, 1, "", 16)
+            print(exc_info)
+
+    def test_is_transaction_income_exist_income_neg(self):
+        with pytest.raises(TypeError) as exc_info:
+            Income(1, datetime.now(), 100, 1, "", "moneyloundary")
+            print(exc_info)
+
+    def test_is_transaction_income_exist_pos(self):
+        Income(1, datetime.now(), 100, 1, "", "Salary")
+
+    def test_is_transaction_expense_exist_neg(self):
+        with pytest.raises(TypeError) as exc_info:
+            Expense(1, datetime.now(), 100, 1, "", "criminal act")
+            print(exc_info)
+
+    def test_is_transaction_expense_exist_pos(self):
+        Expense(1, datetime.now(), 100, 1, "", "Rent")

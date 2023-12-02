@@ -1,5 +1,8 @@
 from datetime import datetime
 
+import psedo_data_base
+from psedo_data_base import *
+
 
 class FloatValidator:
     """
@@ -93,10 +96,13 @@ class StringValidator:
        :param instance: The instance that the attribute belongs to.
        :param value: The value to set the attribute to.
        """
+        if value is None:
+            value = ''
         if not isinstance(value, str):
             raise TypeError("Value must be a string.")
-        if len(value) > self.max_length:
+        elif len(value) > self.max_length:
             raise ValueError(f"String length must be less than or equal to {self.max_length}.")
+
         self.value = value
 
 
@@ -135,3 +141,33 @@ class DateTimeValidator:
        Set the name of the attribute.
        """
         self.name = name
+
+
+class CategoryValidator:
+    """
+   A descriptor that checks the type of category.It recognizes type of transaction and If category and transaction are not compatible, raises type error.
+   """
+
+    def __set_name__(self, owner_class, property_name):
+
+        self.property_name = property_name
+        self.owner_class = owner_class
+
+    def __get__(self, instance, owner):
+        """
+       Get the value of the attribute.
+       """
+
+        return instance.__dict__[self.property_name]
+
+    def __set__(self, instance, value):
+
+        if not isinstance(value, str):
+            raise TypeError(f"{value} must be string")
+
+        set_name = self.property_name + '_' + self.owner_class.__name__.lower()
+
+        if value in psedo_data_base.category_data[set_name]:
+            instance.__dict__[self.property_name] = value
+        else:
+            raise TypeError(f"{value} is not a valid {self.owner_class.__name__} category")

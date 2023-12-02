@@ -8,15 +8,36 @@ class Transaction:
     wallet_id = IntValidator()
     description = StringValidator(200)
 
-    def __init__(self, id, transaction_date, amount, wallet_id, description):
+    def __init__(self, id, transaction_date, amount, wallet_id, description=None):
         self.id = id
         self.transaction_date = transaction_date
         self.amount = amount
         self.wallet_id = wallet_id
         self.description = description
 
+class Income(Transaction):
+
+    category = "income"
+    transaction_type = CategoryValidator()
+    def __init__(self, id, transaction_date, amount, wallet_id, description, transaction_type):
+        super().__init__(id, transaction_date, amount, wallet_id, description)
+        self.transaction_type = transaction_type
+
     def __repr__(self):
-        return f"Transaction: (id: {self.id}, date: {self.transaction_date}, amount: {self.amount}, wallet_id: {self.wallet_id}, desc: {self.description})"
+        return f'Income: (id: {self.id}, date: {self.transaction_date}, amount: {self.amount}, ' \
+               f'wallet_id: {self.wallet_id}, desc: {self.description}, type: {self.transaction_type})'
+
+class Expense(Transaction):
+
+    category = "expense"
+    transaction_type = CategoryValidator()
+    def __init__(self, id, transaction_date, amount, wallet_id, description, transaction_type):
+        super().__init__(id, transaction_date, amount, wallet_id, description)
+        self.transaction_type = transaction_type
+
+    def __repr__(self):
+        return f'Expense: (id: {self.id}, date: {self.transaction_date}, amount: {self.amount}, ' \
+               f'wallet_id: {self.wallet_id}, desc: {self.description}, type: {self.transaction_type})'
 
 
 class Wallet:
