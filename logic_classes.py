@@ -15,10 +15,20 @@ class Transaction:
         self.wallet_id = wallet_id
         self.description = description
 
-class Income(Transaction):
 
-    category = "income"
+class TransactionType:
+    def __init__(self, transaction_type_id, category, transaction_type):
+        self.category = category
+        self.transaction_type = transaction_type
+        self.transaction_type_id = transaction_type_id
+
+    def __repr__(self):
+        return f"TransactionType(id: {self.transaction_type_id}, category: {self.category}, transaction_type: {self.transaction_type})"
+
+
+class Income(Transaction):
     transaction_type = CategoryValidator()
+
     def __init__(self, id, transaction_date, amount, wallet_id, description, transaction_type):
         super().__init__(id, transaction_date, amount, wallet_id, description)
         self.transaction_type = transaction_type
@@ -27,10 +37,11 @@ class Income(Transaction):
         return f'Income: (id: {self.id}, date: {self.transaction_date}, amount: {self.amount}, ' \
                f'wallet_id: {self.wallet_id}, desc: {self.description}, type: {self.transaction_type})'
 
-class Expense(Transaction):
 
+class Expense(Transaction):
     category = "expense"
     transaction_type = CategoryValidator()
+
     def __init__(self, id, transaction_date, amount, wallet_id, description, transaction_type):
         super().__init__(id, transaction_date, amount, wallet_id, description)
         self.transaction_type = transaction_type

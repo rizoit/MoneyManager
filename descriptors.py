@@ -106,9 +106,6 @@ class StringValidator:
         self.value = value
 
 
-from datetime import datetime
-
-
 class DateTimeValidator:
     """
    A descriptor that checks if an attribute is a datetime object. If not, it checks if it's a string in the format "DD/MM/YYYY HH:MM".
@@ -161,13 +158,15 @@ class CategoryValidator:
         return instance.__dict__[self.property_name]
 
     def __set__(self, instance, value):
+        from logic_classes import TransactionType
 
-        if not isinstance(value, str):
-            raise TypeError(f"{value} must be string")
+        if not isinstance(value, TransactionType):
+            raise TypeError(f"{value} must be TransactionType")
 
         set_name = self.property_name + '_' + self.owner_class.__name__.lower()
+        print(value)
 
-        if value in psedo_data_base.category_data[set_name]:
+        if getattr(value, self.property_name) in psedo_data_base.category_data[set_name]:
             instance.__dict__[self.property_name] = value
         else:
             raise TypeError(f"{value} is not a valid {self.owner_class.__name__} category")

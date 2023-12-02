@@ -99,17 +99,22 @@ class TestCategoryValidator:
             print(exc_info)
 
     def test_is_transaction_income_exist_income_neg(self):
+        trans = TransactionType(1, "Income" ,"MoneyLoundary")
+
         with pytest.raises(TypeError) as exc_info:
-            Income(1, datetime.now(), 100, 1, "", "moneyloundary")
+            Income(1, datetime.now(), 100, 1, "", trans)
             print(exc_info)
 
     def test_is_transaction_income_exist_pos(self):
-        Income(1, datetime.now(), 100, 1, "", "Salary")
+        trans = TransactionType(1, "Income" , "Salary")
+        Income(1, datetime.now(), 100, 1, "", trans)
 
     def test_is_transaction_expense_exist_neg(self):
         with pytest.raises(TypeError) as exc_info:
-            Expense(1, datetime.now(), 100, 1, "", "criminal act")
+            trans = TransactionType(1, "Expense" ,"Criminal Act")
+            Expense(1, datetime.now(), 100, 1, "", trans)
             print(exc_info)
 
     def test_is_transaction_expense_exist_pos(self):
-        Expense(1, datetime.now(), 100, 1, "", "Rent")
+        trans = TransactionType(1, "Expense" ,"Rent")
+        Expense(1, datetime.now(), 100, 1, "", trans)
