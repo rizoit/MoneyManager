@@ -57,6 +57,7 @@ class IntValidator:
        it converts it. If it can't, it raises a ValueError. It also checks if the value is negative and
        if it is, it raises a ValueError.
        """
+
         try:
             int_value = int(value)
             if int_value < 0:
@@ -164,7 +165,7 @@ class CategoryValidator:
             raise TypeError(f"{value} must be TransactionType")
 
         set_name = self.property_name + '_' + self.owner_class.__name__.lower()
-        print(value)
+
 
         if getattr(value, self.property_name) in psedo_data_base.category_data[set_name]:
             instance.__dict__[self.property_name] = value
