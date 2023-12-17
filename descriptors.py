@@ -13,12 +13,13 @@ class FloatValidator:
 
     def __init__(self):
         self.value = None
+        self.data = dict()
 
     def __get__(self, instance, owner):
         """
        Getter method for the descriptor.
        """
-        return self.value
+        return self.data.get(instance)
 
     def __set__(self, instance, value):
         """
@@ -30,6 +31,7 @@ class FloatValidator:
             float_value = float(value)
             if float_value < 0:
                 raise ValueError("Value cannot be negative")
+            self.data[instance] = float_value
             self.value = float_value
         except TypeError:
             raise TypeError(f"{self.value} must be float")
@@ -43,13 +45,12 @@ class IntValidator:
    """
 
     def __init__(self):
-        self.value = None
-
+        self.data = dict()
     def __get__(self, instance, owner):
         """
        Getter method for the descriptor.
        """
-        return self.value
+        return self.data.get(instance)
 
     def __set__(self, instance, value):
         """
@@ -62,9 +63,9 @@ class IntValidator:
             int_value = int(value)
             if int_value < 0:
                 raise ValueError("Value cannot be negative")
-            self.value = int_value
+            self.data[instance] = value
         except ValueError:
-            raise ValueError(f"{self.value} must be integer")
+            raise ValueError(f"{value} must be integer")
 
 
 class StringValidator:
@@ -79,6 +80,7 @@ class StringValidator:
        :param max_length: The maximum length of the string.
        """
         self.max_length = max_length
+        self.data = dict()
 
     def __get__(self, instance, owner):
         """
@@ -88,7 +90,8 @@ class StringValidator:
        :param owner: The owner of the attribute.
        :return: The value of the attribute.
        """
-        return self.value
+
+        return self.data.get(instance)
 
     def __set__(self, instance, value):
         """
@@ -97,6 +100,7 @@ class StringValidator:
        :param instance: The instance that the attribute belongs to.
        :param value: The value to set the attribute to.
        """
+
         if value is None:
             value = ''
         if not isinstance(value, str):
@@ -104,7 +108,11 @@ class StringValidator:
         elif len(value) > self.max_length:
             raise ValueError(f"String length must be less than or equal to {self.max_length}.")
 
-        self.value = value
+
+        self.data[instance] = value
+
+    def __set_name__(self, owner, name):
+        self.name = name
 
 
 class DateTimeValidator:

@@ -4,6 +4,7 @@ import sqlite3
 import os
 from logic_classes import *
 import random
+import copy
 
 DATA_BASE_NAME = 'test.db'
 
@@ -15,13 +16,15 @@ DATA_HEADERS = {
         'wallet_name': 'text',
         'initial_amount': 'real'},
     "TransactionHistory": {
-        'transaction_id': 'integer',
         'transaction_date': 'text',
         'amount': 'real',
         'wallet_id_master': 'integer',
         'wallet_id_slave': 'integer',
         'type_id': 'integer',
-        'description': 'text'}
+        'description': 'text'},
+    "Account": {
+        'name':'text',
+        'wallet_list': 'integer'}
 }
 
 if DATA_BASE_NAME in os.listdir():
@@ -64,16 +67,27 @@ def insert_transaction_type(transaction_type, data_base_name):
 def insert_wallet_data(wallet, data_base_name):
     conn = sqlite3.connect(data_base_name)
     conn.cursor()
-    conn.execute(f"INSERT INTO Wallet VALUES ('{wallet.wallet_name}', '{wallet.initial_amount}')")
+
+    conn.execute(f"INSERT INTO Wallet VALUES ('{wallet.name}', '{wallet.initial_amount}')")
     conn.commit()
     conn.close()
 
+def insert_accunt_data(account, data_base_name):
+    conn = sqlite3.connect(data_base_name)
+    conn.cursor()
+
+    wallet_id_list = [wallet.wallet_id for wallet in account.wallet_list]
+    print(account.name, wallet_id_list)
+
+    conn.execute(f"INSERT INTO Account VALUES ('{account.name}', '{wallet_id_list}')")
+    conn.commit()
+    conn.close()
 
 def insert_income_data(income, data_base_name):
     conn = sqlite3.connect(data_base_name)
     conn.cursor()
     conn.execute(
-        f"INSERT INTO TransactionHistory VALUES ('{income.id}', '{income.transaction_date}','{income.amount}','{income.wallet_id_master}','{income.wallet_id_slave}','{income.transaction_type.transaction_type_id}','{income.description}')")
+        f"INSERT INTO TransactionHistory VALUES ('{income.transaction_date}','{income.amount}','{income.wallet_id_master}','{income.wallet_id_slave}','{income.transaction_type.transaction_type_id}','{income.description}')")
     conn.commit()
     conn.close()
 
@@ -82,7 +96,7 @@ def insert_expense_data(expense, data_base_name):
     conn = sqlite3.connect(data_base_name)
     conn.cursor()
     conn.execute(
-        f"INSERT INTO TransactionHistory VALUES ('{expense.id}', '{expense.transaction_date}','{expense.amount}','{expense.wallet_id_master}','{expense.wallet_id_slave}','{expense.transaction_type.transaction_type_id}','{expense.description}')")
+        f"INSERT INTO TransactionHistory VALUES ('{expense.transaction_date}','{expense.amount}','{expense.wallet_id_master}','{expense.wallet_id_slave}','{expense.transaction_type.transaction_type_id}','{expense.description}')")
     conn.commit()
     conn.close()
 
@@ -110,8 +124,9 @@ def create_random_database():
 
     create_db(DATA_BASE_NAME, DATA_HEADERS)
 
-    ## Transaction Type Construction
+
     transaction_type_counter = 0
+
 
     for category in category_data.keys():
         for transaction_type in category_data[category]:
@@ -121,22 +136,23 @@ def create_random_database():
             insert_transaction_type(transaction_type_instance, DATA_BASE_NAME)
             transaction_type_counter += 1
 
-    wallet_counter = 0
-    wallet_list = []
+    acc = Account(account_data[0], account_data[1])
+
 
     for item in wallet_data:
         wallet = Wallet(*item)
-
-        wallet_counter += 1
+        acc.add_wallet(wallet)
         insert_wallet_data(wallet, DATA_BASE_NAME)
-        wallet_list.append(wallet)
 
-    wallet_data_list = read_all('Wallet', DATA_BASE_NAME)
+
+    insert_accunt_data(acc, DATA_BASE_NAME)
+
+
     transaction_type_list = read_all('TransactionType', DATA_BASE_NAME)
 
     transaction_counter = 0
-    for _ in range(1000):
-        wallet = Wallet(*random.choice(wallet_data_list))
+    for _ in range(50):
+        wallet = random.choice(acc.wallet_list)
         tran_type = TransactionType(*random.choice(transaction_type_list))
 
         random_date_result = random_date(start_date, end_date)
@@ -161,4 +177,12 @@ create_random_database()
 def read_fast():
     for key in DATA_HEADERS.keys():
         result = read_all(key, DATA_BASE_NAME)
-        print(result)
+
+        print(key, result)
+read_fast()
+
+
+
+
+
+

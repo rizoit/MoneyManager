@@ -31,10 +31,9 @@ class TransactionType:
 class Income(Transaction):
     transaction_type = CategoryValidator()
 
-    def __init__(self, id, transaction_date, amount, wallet_id_master,wallet_id_slave, description, transaction_type):
-        super().__init__(id, transaction_date, amount, wallet_id_master,wallet_id_slave, description)
+    def __init__(self, id, transaction_date, amount, wallet_id_master, wallet_id_slave, description, transaction_type):
+        super().__init__(id, transaction_date, amount, wallet_id_master, wallet_id_slave, description)
         self.transaction_type = transaction_type
-
 
     def __repr__(self):
         return f'Income: (id: {self.id}, date: {self.transaction_date}, amount: {self.amount}, ' \
@@ -55,26 +54,36 @@ class Expense(Transaction):
 
 
 class Wallet:
-    wallet_name = StringValidator(25)
+    name = StringValidator(25)
     initial_amount = FloatValidator()
     wallet_id = IntValidator()
 
-    def __init__(self, wallet_id, wallet_name, initial_amount):
+    def __init__(self, wallet_id, name, initial_amount):
         self.wallet_id = wallet_id
-        self.wallet_name = wallet_name
+        self.name = name
 
         self.initial_amount = initial_amount
-        self.transaction_history = set()
+        self.transaction_history = list()
 
     def __repr__(self):
-        return f"Wallet(wallet_id: {self.wallet_id}, wallet_name: {self.wallet_name}, initial_amount: {self.initial_amount})"
+        return f"Wallet(wallet_id: {self.wallet_id}, wallet_name: {self.name}, initial_amount: {self.initial_amount})"
 
-    def __hash__(self):
-        return hash((self.wallet_id, self.wallet_name, self.initial_amount))
+
+
 
 class Account:
-    account_name = StringValidator(25)
+    name = StringValidator(25)
+    account_id = IntValidator()
 
-    def __init__(self, account_name):
-        self.account_name = account_name
-        self.wallet_set = set()
+    def __init__(self, account_id, name):
+        self.account_id = account_id
+        self.name = name
+        self.wallet_list = list()
+
+    def add_wallet(self, wallet):
+        if not isinstance(wallet, Wallet):
+            raise TypeError(f"{wallet} is not instance of Wallet")
+        self.wallet_list.append(wallet)
+
+    def __repr__(self):
+        return (f"Account(account_id: {self.account_id}, account_name: {self.name}, wallet_list: {self.wallet_list})")
